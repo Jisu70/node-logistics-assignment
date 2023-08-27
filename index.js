@@ -7,8 +7,10 @@ const dbConnection = require("./utils/dbConnection");
 app.use(cors());
 app.use(express.json());
 
-const itemsRouter = require("./routes/Items.routes");
-app.use("/items", itemsRouter);
+const itemsRoute = require("./routes/Items.routes");
+const customerRoute = require("./routes/customers.routes");
+app.use("/items", itemsRoute);
+app.use("/customer", customerRoute);
 
 dbConnection();
 app.use((err, req, res, next) => {
