@@ -3,7 +3,7 @@ const Item = require('../models/Item.js')
 // Find item
 const findItem = async (req, res) => {
   try {
-    const items = await Item.find({ customerId: req.userId });
+    const items = await Item.find({ _id: req.params.id });
     res.json(items);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -16,8 +16,7 @@ const createItem = async (req, res) => {
     const { name, price } = req.body;
     const newItem = new Item({
       name,
-      price,
-      customerId: req.userId,
+      price
     });
     const savedItem = await newItem.save();
     res.status(201).json(savedItem);
@@ -28,11 +27,11 @@ const createItem = async (req, res) => {
 
 // Update Item
 const updateItem = async (req, res) => {
-  const userId = req.userId;
+  console.log(req.params.id)
   const updatedName = req.body.name;
   const updatedPrice = req.body.price;
   try {
-    const result = await Item.findById(userId);
+    const result = await Item.findById({_id : req.params.id});
     if (result) {
       result.name = updatedName;
       result.price = updatedPrice;
@@ -48,9 +47,8 @@ const updateItem = async (req, res) => {
 
 // To delete Item
 const deleteItem = async (req, res) => {
-  const id = req.body.id;
   try {
-    const result = await Item.findById(id);
+    const result = await Item.findById({_id : req.params.id});
     if (!result) {
       return res.status(404).json({ error: "Expense not found." });
     }

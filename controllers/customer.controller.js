@@ -2,10 +2,6 @@ const Customer = require("../models/Customers");
 
 // Save the user data to Database
 const saveData = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
   try {
     const newUser = new Customer({
       name: req.body.name,
@@ -13,7 +9,7 @@ const saveData = async (req, res) => {
     });
     await newUser.save();
     res.status(200).json({
-      message: "Signup was successful!",
+      message: "Signup was successful!", user : newUser
     });
   } catch (err) {
     console.log(err);

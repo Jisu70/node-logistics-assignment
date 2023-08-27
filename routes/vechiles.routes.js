@@ -15,3 +15,4 @@ router.put('/delivery-vehicles/:vehicleId', updateVechile );
 router.delete('/delivery-vehicles/:vehicleId',deleteVechile);
 
 module.exports = router;
+ 
