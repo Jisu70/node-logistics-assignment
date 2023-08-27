@@ -36,20 +36,17 @@ const createOrder = async (req, res) => {
 // Get all orders
 const getOrdr = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.findById({_id : req.params.id});
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get a specific order by ID
-const orderById = async (req, res) => {
-  res.json({ message : " Hello world "})
-};
+
 
 //Api for update the isDeleiverd true if item was deliverd 
-app.put('/orders/:orderId/delivered', async (req, res) => {
+const updateIsDeliver = async (req, res) => {
   try {
     const orderId = req.params.orderId;
 
@@ -71,7 +68,6 @@ app.put('/orders/:orderId/delivered', async (req, res) => {
       return res.status(404).json({ message: 'Delivery vehicle not found' });
     }
 
-    // Decrement activeOrdersCount of the delivery vehicle
     if (deliveryVehicle.activeOrdersCount > 0) {
       deliveryVehicle.activeOrdersCount--;
       await deliveryVehicle.save();
@@ -81,7 +77,7 @@ app.put('/orders/:orderId/delivered', async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'An error occurred' });
   }
-});
+};
 
 
 // Delete an order by ID
@@ -107,7 +103,6 @@ const deleteOrder = async (req, res) => {
 module.exports = {
   createOrder,
   getOrdr,
-  orderById,
-  updateOrder,
   deleteOrder,
+  updateIsDeliver
 };
